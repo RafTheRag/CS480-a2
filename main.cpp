@@ -51,6 +51,9 @@ int main(int argc, char** argv) {
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
 
+    sharedData->fileName[0] = argv[1]; //for vocab file
+    sharedData->fileName[1] = argv[2]; //for test file
+
     //??not sure how to pass the files
     if (pthread_create(&readvocabThread, NULL, &readvocab, &sharedData)){
         //error handling
