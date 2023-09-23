@@ -26,9 +26,17 @@ int main(int argc, char** argv) {
     //         case 'p':
     //             //converts to int
     //             sharedData->numOfProgressMarks = atoi(optarg);
+    //             if (sharedData->numOfProgressMarks < 10){
+    //                 cerr << "Number of progress marks must be a number and at least 10." << endl;
+    //                 exit(EXIT_FAILURE);
+    //             }
     //             break;
     //         case 'm':
     //             sharedData->hashmarkInterval = atoi(optarg);
+    //             if (sharedData->hashmarkInterval <= 0 || sharedData->hashmarkInterval > 10) {
+    //                 cerr << "Hash mark interval for progress must be a number, greater than 0, and less than or equal to 10." << endl;
+    //                 exit(EXIT_FAILURE);
+    //             }
     //             break;
     //         case 'v':
     //             sharedData->minNumOfVocabStringsContainedForPrinting = atoi(optarg);
@@ -39,6 +47,17 @@ int main(int argc, char** argv) {
     //     }
     // }
 
+    pthread_t readvocabThread;
+    pthread_t readlinesThread;
+    pthread_t countvocabstringsThread;
 
+    //??not sure how to pass the files
+    if (pthread_create(&readvocabThread, NULL, &readvocab, &sharedData)){
+        //error handling
+    }
+
+    if (pthread_create(&readlinesThread, NULL, &readlines, &sharedData)){
+        //error handling
+    }
 
 }

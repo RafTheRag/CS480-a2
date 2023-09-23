@@ -4,6 +4,6 @@
 #include "shared.h" // Include the shared data structure
 
 // Function declaration for readvocab thread
-void* readvocab(void* arg);
+void* readvocab(void* line);
 
 #endif // READVOCAB_H
