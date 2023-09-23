@@ -17,7 +17,7 @@
 
 # # The program depends upon its object files
 # $(PROGRAM) : $(OBJS)
-# 	$(CC) -pthread -o $(PROGRAM) $(OBJS)
+# 	$(CXX) -pthread -o $(PROGRAM) $(OBJS)
 
 # main.o : main.cpp
 # 	$(CXX) $(CXXFLAGS) main.cpp

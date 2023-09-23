@@ -16,9 +16,9 @@
 #define DEFAULT_MINNUM_OFVOCABSTRINGS_CONTAINED 0
 
 typedef struct {
-    unsigned int numOfProgressMarks;
-    unsigned int hashmarkInterval;
-    unsigned int minNumOfVocabStringsContainedForPrinting;
+    unsigned int numOfProgressMarks = DEFAULT_NUMOF_MARKS;
+    unsigned int hashmarkInterval = DEFAULT_HASHMARKINTERVAL;
+    unsigned int minNumOfVocabStringsContainedForPrinting = DEFAULT_MINNUM_OFVOCABSTRINGS_CONTAINED;
     const char* fileName[NUMOFFILES];
     unsigned long totalNumOfCharsInVocabFile;
     long numOfCharsReadFromVocabFile;
