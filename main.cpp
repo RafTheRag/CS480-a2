@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
     pthread_t readvocabThread;
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
-
+    
     sharedData->fileName[0] = argv[1]; //for vocab file
     sharedData->fileName[1] = argv[2]; //for test file
 

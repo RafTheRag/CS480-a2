@@ -4,6 +4,6 @@
 #include "shared.h" // Include the shared data structure
 
 // Function declaration for readlines thread
-void* readlines(void *line);
+void* readlines(void *arg);
 
 #endif // READLINES_H
