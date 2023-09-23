@@ -7,12 +7,10 @@ void* readvocab(void* arg){
     
     struct stat fileStat;
     const char* filePath = accessData->fileName[0];
-    if (stat(filePath, &fileStat) == -1) {
-        std::cerr << "Unable to stat file: " << filePath << std::endl;
-    }
+    stat(filePath, &fileStat);
     accessData->totalNumOfCharsInVocabFile = fileStat.st_size;
-
     
+
     
     pthread_exit(NULL);
 }
