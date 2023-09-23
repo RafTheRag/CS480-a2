@@ -1,10 +1,12 @@
 #ifndef SHARED_H
 #define SHARED_H
 
+#include <sys/stat.h>
 #include <pthread.h>
 #include <queue>
 #include <vector>
 #include <string>
+#include <iostream>
 
 #define NUMOFFILES 2
 #define VOCABFILEINDEX 0

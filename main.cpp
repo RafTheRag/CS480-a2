@@ -55,11 +55,11 @@ int main(int argc, char** argv) {
     sharedData->fileName[1] = argv[2]; //for test file
 
     //??not sure how to pass the files
-    if (pthread_create(&readvocabThread, NULL, &readvocab, &sharedData)){
+    if (pthread_create(&readvocabThread, NULL, &readvocab, (void*)&sharedData)){
         //error handling
     }
 
-    if (pthread_create(&readlinesThread, NULL, &readlines, &sharedData)){
+    if (pthread_create(&readlinesThread, NULL, &readlines, (void*)&sharedData)){
         //error handling
     }
 
