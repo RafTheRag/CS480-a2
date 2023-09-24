@@ -9,7 +9,7 @@
 //This is the constructor for the CharNode class which initates all our child nodes as a nullptr.
 CharNode::CharNode(){
 
-    for(int i = 0; i < 31; i++){
+    for(int i = 0; i < LENGTH; i++){
 
         child[i] = nullptr;
     }
