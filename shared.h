@@ -65,7 +65,7 @@ typedef struct {
     /**
     * store strings read from vocabulary file
     */
-    std::vector<std::string> *vocabVect;
+    std::vector<std::string> vocabVect;
     
     /**
     * buffer lines read from test file
