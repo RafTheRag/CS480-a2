@@ -70,7 +70,7 @@ typedef struct {
     /**
     * buffer lines read from test file
     */
-    std::queue<std::string> *lineQueue;
+    std::queue<std::string> lineQueue;
     
     /**
     * pthread mutex for accessing the line Queue
