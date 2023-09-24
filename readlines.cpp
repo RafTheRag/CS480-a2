@@ -26,9 +26,10 @@ void* readlines(void* arg){
     }
     
     //unlocks access to queue after being read
-    pthread_mutex_unlock(&(accessData->queue_mutex));
-
+    
     accessData->taskCompleted[TESTFILEINDEX] = true;
-
+    pthread_cond_signal(&accessData->condition);
+    
+    pthread_mutex_unlock(&(accessData->queue_mutex));
     pthread_exit(NULL);
 }

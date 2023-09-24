@@ -51,16 +51,26 @@ int main(int argc, char** argv) {
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
     
+
     sharedData->fileName[0] = argv[1]; //for vocab file
     sharedData->fileName[1] = argv[2]; //for test file
 
     //??not sure how to pass the files
-    if (pthread_create(&readvocabThread, NULL, &readvocab, (void*)&sharedData)){
+    if (pthread_create(&readvocabThread, NULL, &readvocab, (void*)&sharedData) != 0){
         //error handling
     }
 
-    if (pthread_create(&readlinesThread, NULL, &readlines, (void*)&sharedData)){
+    if (pthread_create(&readlinesThread, NULL, &readlines, (void*)&sharedData) != 0){
         //error handling
     }
 
+    pthread_mutex_lock(&(sharedData->queue_mutex));
+    
+    while(sharedData->taskCompleted[TESTFILEINDEX] == false){
+        pthread_cond_wait(&(sharedData->condition), &(sharedData->queue_mutex));
+    }
+
+    pthread_create(&countvocabstringsThread, NULL, &countvocabstrings, (void*)&sharedData);
+
+    pthread_mutex_unlock(&(sharedData->queue_mutex));
 }

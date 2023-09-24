@@ -77,6 +77,10 @@ typedef struct {
     */
     pthread_mutex_t queue_mutex;
     
+
+    pthread_cond_t condition;
+
+    
     /**
     * completed flags indicate the completion of the thread logic, one
     * for the readvocab thread, one for readlines thread
