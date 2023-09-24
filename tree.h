@@ -5,13 +5,14 @@
 
 #ifndef TREE_H
 #define TREE_H
+#define LENGTH 31
 
 #include <string.h>
 
 //Declare the CharNode class with 31 child nodes for the 31 valid characters.
 class CharNode {
 public:
-    CharNode *child[31];
+    CharNode *child[LENGTH];
 
     CharNode();
 
@@ -22,7 +23,11 @@ class CharTrie {
 public:
     CharTrie();
 
-    int getIndex(char n); //T
+    ~CharTrie(){
+        //Implement dfs to delete nodes.
+    }
+
+    int getIndex(char n);
 
     bool insert(const char *strBeingInserted);
 
