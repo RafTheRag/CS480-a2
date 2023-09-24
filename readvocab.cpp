@@ -1,11 +1,12 @@
 #include "readvocab.h" 
+#include "shared.h"
 #include <fstream>
 #include <string>
 #include <algorithm>
 
 void* readvocab(void* arg){
     //Access shared data structure inside thread.
-    SHARED_DATA *accessData = (SHARED_DATA*)arg;
+    SHARED_DATA* accessData = (SHARED_DATA*)arg;
     const char* vocabFileName = accessData->fileName[VOCABFILEINDEX];
 
     //Preperation for reading in vocab file lines.
