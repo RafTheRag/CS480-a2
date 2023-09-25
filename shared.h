@@ -76,9 +76,6 @@ typedef struct {
     * pthread mutex for accessing the line Queue
     */
     pthread_mutex_t queue_mutex;
-    
-
-    pthread_cond_t condition;
 
     
     /**

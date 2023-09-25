@@ -14,9 +14,6 @@ void* readlines(void* arg){
     std::ifstream testIn(testFileName);
     std::string testLine;
 
-    //locks access to queue while testfile is still being read
-    pthread_mutex_lock(&(accessData->queue_mutex));
-
 
     while(std::getline(testIn, testLine)){
 
@@ -25,11 +22,14 @@ void* readlines(void* arg){
         accessData->lineCountInFile[TESTFILEINDEX]++;
     }
     
-    //unlocks access to queue after being read
-    
+
+    //locks access to queue while testfile is still being read
+    pthread_mutex_lock(&(accessData->queue_mutex));
+
     accessData->taskCompleted[TESTFILEINDEX] = true;
-    pthread_cond_signal(&accessData->condition);
     
     pthread_mutex_unlock(&(accessData->queue_mutex));
+
+   
     pthread_exit(NULL);
 }

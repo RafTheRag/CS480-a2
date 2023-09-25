@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
     pthread_t readvocabThread;
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
+
     
 
     sharedData->fileName[0] = argv[1]; //for vocab file
@@ -63,14 +64,10 @@ int main(int argc, char** argv) {
     if (pthread_create(&readlinesThread, NULL, &readlines, (void*)&sharedData) != 0){
         //error handling
     }
-
-    pthread_mutex_lock(&(sharedData->queue_mutex));
     
-    while(sharedData->taskCompleted[TESTFILEINDEX] == false){
-        pthread_cond_wait(&(sharedData->condition), &(sharedData->queue_mutex));
-    }
-
     pthread_create(&countvocabstringsThread, NULL, &countvocabstrings, (void*)&sharedData);
 
-    pthread_mutex_unlock(&(sharedData->queue_mutex));
+    // pthread_join(tidA, NULL);
+    // pthread_join(tidB, NULL);
+
 }

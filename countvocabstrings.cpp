@@ -9,9 +9,20 @@ void* countvocabstrings(void* arg){
     SHARED_DATA *accessData = (SHARED_DATA*)arg;
     std::queue<std::string> lineQueue = accessData->lineQueue;
 
-    while(!accessData->taskCompleted[VOCABFILEINDEX] || lineQueue.empty()){
-        sleep(0);
+    //busy wait method for mutex going to keep locking and unlocking until bool signal
+    while (true) {
+        pthread_mutex_lock(&(accessData->queue_mutex));
+        if (accessData->taskCompleted[TESTFILEINDEX] == true) {
+            pthread_mutex_unlock(&(accessData->queue_mutex));
+            break;
+        }
+        pthread_mutex_unlock(&(accessData->queue_mutex));
     }
+
+    
+    // while(!accessData->taskCompleted[VOCABFILEINDEX] || lineQueue.empty()){
+    //     sleep(0);
+    // }
 
     while(!lineQueue.empty()){
         
