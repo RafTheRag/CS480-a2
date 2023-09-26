@@ -14,7 +14,7 @@ void* countvocabstrings(void* arg){
         continue;
     }
 
-    int vocabCount = 0;
+    int vocabCount;
     
     while(!accessData->lineQueue.empty()){
         
@@ -36,7 +36,7 @@ void* countvocabstrings(void* arg){
 
 
 
-        //charTrie.~CharTrie(); Deallocated Trie with deconstructer
+        charTrie.~CharTrie();
         if(vocabCount >= accessData->minNumOfVocabStringsContainedForPrinting){
             std::cout << vocabCount << std::endl;
         }

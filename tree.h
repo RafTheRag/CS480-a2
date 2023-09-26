@@ -16,6 +16,8 @@ public:
 
     CharNode();
 
+    bool nodeDelete(CharNode *root);
+
 };
 
 //Declare the CharTrie class with 3 oublic methods and a private root of type CharNode.
@@ -23,9 +25,7 @@ class CharTrie {
 public:
     CharTrie();
 
-    ~CharTrie(){
-        //Implement dfs to delete nodes.
-    }
+    ~CharTrie();
 
     int getIndex(char n);
 

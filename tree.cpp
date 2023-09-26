@@ -13,13 +13,31 @@ CharNode::CharNode(){
 
         child[i] = nullptr;
     }
-
 }
+
+bool CharNode::nodeDelete(CharNode *root){
+    CharNode *node = root;
+        
+    for(int i = 0; i < LENGTH; i++){
+        if(node->child[i] == nullptr){
+            continue;
+        }
+        nodeDelete(node->child[i]);
+    }
+
+    delete(node);
+
+    return true;
+ }
 
 //This is the constructor for the CharTrie class which creates a new instance of the CharNode class, root. Marking the start of our trie.
 CharTrie::CharTrie(){
     
     root = new CharNode();
+}
+
+CharTrie::~CharTrie(){
+    root->nodeDelete(root);
 }
 
 //This method takes in a char and calculates the index value of our next child node using the alphabet and the valid characters.
