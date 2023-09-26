@@ -13,11 +13,12 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    int option;
+    
+    if (argc < 3) {
+        throw invalid_argument("Invalid num of arguements");
+    }
 
     SHARED_DATA sharedData;
-    // ifstream testIn(argv[2]);
-    // ifstream vocabIn(argv[1]);
     
     
     /*Contains the code for optional arguements for command line
@@ -25,15 +26,26 @@ int main(int argc, char** argv) {
     * m: place a hash mark “#” in the progress bar every N characters, default is 1
     * v: print number of contained vocab strings to an output file only it is equal to or greater than N, default is 0 if not specified
     */
+    
+    // for (int i = 1; i < argc; ++i) {
+    //     if (std::string(argv[i]) == "-v" && i + 1 < argc) {
+    //         sharedData.minNumOfVocabStringsContainedForPrinting = std::atoi(argv[i + 1]);
+    //         i++; // Skip the argument value
+    //     }
+    // }
+
+    // std::cout << "minNumOfVocabStringsContained : " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
+    
     sharedData.fileName[0] = argv[1]; //for vocab file
     sharedData.fileName[1] = argv[2]; //for test file
 
-    int arg;
+    int option;
     while ((option = getopt(argc, argv, "p:m:v:")) != -1) {
         switch (option) {
             case 'p':
                 //converts to int
                 sharedData.numOfProgressMarks = atoi(optarg);
+                cout << "numOfProgressMarks: " << sharedData.numOfProgressMarks << endl;
                 // if (sharedData.numOfProgressMarks < 10){
                 //     cerr << "Number of progress marks must be a number and at least 10." << endl;
                 //     exit(EXIT_FAILURE);
@@ -47,21 +59,23 @@ int main(int argc, char** argv) {
                 // }
                 break;
             case 'v':
-                sharedData.minNumOfVocabStringsContainedForPrinting = atoi(optarg);
+                cout << "optarg: " << optarg << endl;
+                sharedData.minNumOfVocabStringsContainedForPrinting = atoi(argv[8]);
+                std::cout << "a: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
                 break;
             default:
                 cout << "Usage: " << argv[0] << " vocabulary.txt testfile.txt [-p progressMarks] [-m hashmarkInterval] [-v minNumOfVocabStrings]" << endl;
                 exit(1);
         }
     }
-
-    cout << sharedData.minNumOfVocabStringsContainedForPrinting;
     
+    std::cout << "a: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
 
     pthread_t readvocabThread;
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
 
+    
     
     //pthread_mutex_init
 
@@ -71,16 +85,19 @@ int main(int argc, char** argv) {
 
     //??not sure how to pass the files
     if (pthread_create(&readvocabThread, NULL, &readvocab, (void*)&sharedData)){
-        //error handling
+        cerr << "Error creating readvocabThread" << endl;
+        exit(1);
     }
 
     if (pthread_create(&readlinesThread, NULL, &readlines, (void*)&sharedData)){
-        //error handling
+        cerr << "Error creating readlinesThread" << endl;
+        exit(1);
     }
 
-    
     pthread_create(&countvocabstringsThread, NULL, &countvocabstrings, (void*)&sharedData);
 
+
+    //waits for threads to be done
     pthread_join(readvocabThread, NULL);
     pthread_join(readlinesThread, NULL);
     pthread_join(countvocabstringsThread, NULL);
