@@ -14,10 +14,11 @@ void* readvocab(void* arg){
     std::string vocabLine;
 
     //Used stat to obtain the number of lines in vocab file .
-    struct stat fileStat;
-    const char* filePath = vocabFileName;
-    stat(filePath, &fileStat);
-    accessData->totalNumOfCharsInVocabFile = fileStat.st_size;
+    // struct stat fileStat;
+    // const char* filePath = vocabFileName;
+    // stat(filePath, &fileStat);
+    // accessData->totalNumOfCharsInVocabFile = fileStat.st_size;
+    
 
     //Read in all the lines from vocab file, turn them to lowercase letters, and push to shared vocab vector while increasing the shared count fo the number of total lines processed vector.
     while(std::getline(vocabIn, vocabLine)){
@@ -27,6 +28,7 @@ void* readvocab(void* arg){
         accessData->numOfCharsReadFromVocabFile++;
     }
 
+    
     //Change shared taskCompleted at index of vocab file to true to indicated completion of readvocab thread.
     accessData->taskCompleted[VOCABFILEINDEX] = true;
     

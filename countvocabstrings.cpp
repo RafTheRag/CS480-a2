@@ -7,44 +7,44 @@
 
 void* countvocabstrings(void* arg){
     SHARED_DATA *accessData = (SHARED_DATA*)arg;
-    std::queue<std::string> lineQueue = accessData->lineQueue;
 
-    //busy wait method for mutex going to keep locking and unlocking until bool signal
-    while (true) {
-        pthread_mutex_lock(&(accessData->queue_mutex));
-        if (accessData->taskCompleted[TESTFILEINDEX] == true) {
-            pthread_mutex_unlock(&(accessData->queue_mutex));
-            break;
-        }
-        pthread_mutex_unlock(&(accessData->queue_mutex));
-    }
 
     
-    // while(!accessData->taskCompleted[VOCABFILEINDEX] || lineQueue.empty()){
-    //     sleep(0);
-    // }
+    while(!accessData->taskCompleted[VOCABFILEINDEX] || accessData->lineQueue.empty()){
+        continue;
+    }
 
-    while(!lineQueue.empty()){
+    int vocabCount = 0;
+    
+    while(!accessData->lineQueue.empty()){
         
-        int vocabCount = 0;
+        vocabCount = 0;
         CharTrie charTrie;
-        const char* frontOfQueue = lineQueue.front().c_str();
+        const char* frontOfQueue = accessData->lineQueue.front().c_str();
+        
         charTrie.insert(frontOfQueue);
 
+        pthread_mutex_lock(&(accessData->queue_mutex));
         for(auto &vocab: accessData->vocabVect){
             if(charTrie.search(vocab.c_str())){
                 vocabCount++;
             }
-            
         }
+
+        accessData->lineQueue.pop();
+        pthread_mutex_unlock(&(accessData->queue_mutex));
+
+
 
         //charTrie.~CharTrie(); Deallocated Trie with deconstructer
         if(vocabCount >= accessData->minNumOfVocabStringsContainedForPrinting){
             std::cout << vocabCount << std::endl;
         }
-
+        
     }
-
+    
+    
+    pthread_exit(NULL);
 
 
 
