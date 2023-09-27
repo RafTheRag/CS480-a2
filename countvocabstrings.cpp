@@ -36,9 +36,9 @@ void* countvocabstrings(void* arg){
 
 
 
-        charTrie.~CharTrie();
+        //charTrie.~CharTrie();
         if(vocabCount >= accessData->minNumOfVocabStringsContainedForPrinting){
-            std::cout << vocabCount << std::endl;
+        std::cout << vocabCount << std::endl;
         }
         
     }

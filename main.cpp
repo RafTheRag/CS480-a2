@@ -4,7 +4,6 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <queue>
 #include "shared.h"
 #include "readvocab.h"
 #include "readlines.h"
@@ -36,40 +35,65 @@ int main(int argc, char** argv) {
 
     // std::cout << "minNumOfVocabStringsContained : " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
     
-    sharedData.fileName[0] = argv[1]; //for vocab file
-    sharedData.fileName[1] = argv[2]; //for test file
+    
 
-    int option;
+    int option = 0;
+   
+    
+    // while ((option = getopt(argc,argv, "p:m:v")) != -1){
+    //     switch (option){
+    //         case 'p':
+    //             sharedData.numOfProgressMarks = atoi(optarg);
+    //             cout << "Nums" << sharedData.numOfProgressMarks << endl;
+    //             break;
+    //     }
+    // }
+
     while ((option = getopt(argc, argv, "p:m:v:")) != -1) {
         switch (option) {
+            
             case 'p':
                 //converts to int
                 sharedData.numOfProgressMarks = atoi(optarg);
-                cout << "numOfProgressMarks: " << sharedData.numOfProgressMarks << endl;
+                std::cout << "numOfProgressMarks: " << sharedData.numOfProgressMarks << endl;
                 // if (sharedData.numOfProgressMarks < 10){
                 //     cerr << "Number of progress marks must be a number and at least 10." << endl;
                 //     exit(EXIT_FAILURE);
                 // }
                 break;
+
             case 'm':
+                cout << "optarg: " << optarg << endl;
                 sharedData.hashmarkInterval = atoi(optarg);
+                std::cout << "hashmarkInterval: " << sharedData.hashmarkInterval << endl;
                 // if (sharedData.hashmarkInterval <= 0 || sharedData.hashmarkInterval > 10) {
                 //     cerr << "Hash mark interval for progress must be a number, greater than 0, and less than or equal to 10." << endl;
                 //     exit(EXIT_FAILURE);
                 // }
                 break;
+
             case 'v':
                 cout << "optarg: " << optarg << endl;
-                sharedData.minNumOfVocabStringsContainedForPrinting = atoi(argv[8]);
-                std::cout << "a: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
+                sharedData.minNumOfVocabStringsContainedForPrinting = atoi(optarg);
+                std::cout << "minNumOfVocabStringsContainedForPrinting: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
                 break;
             default:
                 cout << "Usage: " << argv[0] << " vocabulary.txt testfile.txt [-p progressMarks] [-m hashmarkInterval] [-v minNumOfVocabStrings]" << endl;
                 exit(1);
         }
     }
+
+    cout << optind;
+    sharedData.fileName[0] = argv[optind];
+    cout << argv[optind] << endl ;
+    sharedData.fileName[1] = argv[optind + 1];
+    cout << argv[optind + 1] << endl;
+
+
+    // sharedData.fileName[0] = argv[1]; //for vocab file
+    // sharedData.fileName[1] = argv[2]; //for test file
     
-    std::cout << "a: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
+    //std::cout << "he: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
 
     pthread_t readvocabThread;
     pthread_t readlinesThread;
@@ -77,7 +101,7 @@ int main(int argc, char** argv) {
 
     
     
-    //pthread_mutex_init
+    pthread_mutex_init(&sharedData.queue_mutex,NULL);
 
     
 
@@ -94,6 +118,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+
     pthread_create(&countvocabstringsThread, NULL, &countvocabstrings, (void*)&sharedData);
 
 
@@ -101,5 +126,7 @@ int main(int argc, char** argv) {
     pthread_join(readvocabThread, NULL);
     pthread_join(readlinesThread, NULL);
     pthread_join(countvocabstringsThread, NULL);
+
+    return 0;
     
 }  
