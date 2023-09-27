@@ -16,8 +16,6 @@ public:
 
     CharNode();
 
-    bool nodeDelete();
-
 };
 
 //Declare the CharTrie class with 3 oublic methods and a private root of type CharNode.
