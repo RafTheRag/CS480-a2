@@ -88,6 +88,8 @@ int main(int argc, char** argv) {
     cout << argv[optind] << endl ;
     sharedData.fileName[1] = argv[optind + 1];
     cout << argv[optind + 1] << endl;
+    sharedData.taskCompleted[VOCABFILEINDEX] = false;
+    sharedData.taskCompleted[TESTFILEINDEX] = false;
 
 
     // sharedData.fileName[0] = argv[1]; //for vocab file
@@ -98,14 +100,8 @@ int main(int argc, char** argv) {
     pthread_t readvocabThread;
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
-
-    
     
     pthread_mutex_init(&sharedData.queue_mutex,NULL);
-
-    
-
-    
 
     //??not sure how to pass the files
     if (pthread_create(&readvocabThread, NULL, &readvocab, (void*)&sharedData)){
@@ -118,9 +114,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-
     pthread_create(&countvocabstringsThread, NULL, &countvocabstrings, (void*)&sharedData);
-
 
     //waits for threads to be done
     pthread_join(readvocabThread, NULL);

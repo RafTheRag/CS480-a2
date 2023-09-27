@@ -16,8 +16,6 @@ public:
 
     CharNode();
 
-    bool nodeDelete(CharNode *root);
-
 };
 
 //Declare the CharTrie class with 3 oublic methods and a private root of type CharNode.
@@ -32,6 +30,8 @@ public:
     bool insert(const char *strBeingInserted);
 
     bool search(const char *strBeingSearched);
+
+    void nodeDelete(CharNode *root);
 
 private:
     CharNode *root;

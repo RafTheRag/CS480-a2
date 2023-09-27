@@ -35,8 +35,6 @@ void* countvocabstrings(void* arg){
         pthread_mutex_unlock(&(accessData->queue_mutex));
 
 
-
-        //charTrie.~CharTrie();
         if(vocabCount >= accessData->minNumOfVocabStringsContainedForPrinting){
         std::cout << vocabCount << std::endl;
         }
