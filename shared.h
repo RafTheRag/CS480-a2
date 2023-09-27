@@ -83,6 +83,20 @@ typedef struct {
     * for the readvocab thread, one for readlines thread
     */
     bool taskCompleted[NUMOFFILES];
+
+    void initilize(){
+        for(bool task: taskCompleted){
+            task = false;
+        }
+        for(int lineCount: lineCountInFile){
+            lineCount = 0;
+        }
+        totalNumOfCharsInVocabFile = 0;
+        numOfCharsReadFromVocabFile = 0;
+        numOfProcessedLines = 0;
+
+    }
 } SHARED_DATA;
+
 
 #endif // SHARED_H

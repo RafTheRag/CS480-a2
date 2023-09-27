@@ -116,8 +116,7 @@ int main(int argc, char** argv) {
     //for test file
     sharedData.fileName[1] = argv[optind + 1];
     cout << argv[optind + 1] << endl;
-    sharedData.taskCompleted[VOCABFILEINDEX] = false;
-    sharedData.taskCompleted[TESTFILEINDEX] = false;
+    sharedData.initilize();
 
 
     // sharedData.fileName[0] = argv[1]; //for vocab file
