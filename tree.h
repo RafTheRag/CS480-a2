@@ -16,7 +16,7 @@ public:
 
     CharNode();
 
-    bool nodeDelete(CharNode *root);
+    bool nodeDelete();
 
 };
 

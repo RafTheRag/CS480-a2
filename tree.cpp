@@ -15,18 +15,14 @@ CharNode::CharNode(){
     }
 }
 
-bool CharNode::nodeDelete(CharNode *root){
-    CharNode *node = root;
-        
-    for(int i = 0; i < LENGTH; i++){
-        if(node->child[i] == nullptr){
-            continue;
+bool CharNode::nodeDelete(){
+    for (int i = 0; i < LENGTH; i++) {
+        if (child[i] != nullptr) {
+            child[i]->nodeDelete();  // Recursively delete children
+            delete child[i];         // Delete the child node itself
+            child[i] = nullptr;      // Set child pointer to nullptr
         }
-        nodeDelete(node->child[i]);
     }
-
-    delete(node);
-
     return true;
  }
 
@@ -37,7 +33,7 @@ CharTrie::CharTrie(){
 }
 
 CharTrie::~CharTrie(){
-    root->nodeDelete(root);
+    root->nodeDelete();
 }
 
 //This method takes in a char and calculates the index value of our next child node using the alphabet and the valid characters.

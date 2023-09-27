@@ -11,6 +11,44 @@
 
 using namespace std;
 
+void displayProgressBar(double progress) {
+    int barWidth = 40;
+    int pos = barWidth * progress;
+
+    std::cout << "[";
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos)
+            std::cout << '-';
+        else if (i == pos)
+            std::cout << '#';
+        else
+            std::cout << ' ';
+    }
+    std::cout << "] " << std::fixed  << progress * 100 << "%\r" << std::flush;
+}
+
+void simulateThreadExecution(double (*progressFunc)(), const char* threadName) {
+    while (true) {
+        double progress = progressFunc();
+        if (progress >= 1.0) {
+            std::cout << "\n" << threadName << " thread completed." << std::endl;
+            break;
+        }
+        displayProgressBar(progress);
+    }
+
+}
+
+double getReadvocabProgress() {
+    SHARED_DATA sharedData;
+    return (double)sharedData.numOfCharsReadFromVocabFile / (double)sharedData.numOfCharsReadFromVocabFile;
+}
+
+double getCountvocabstringsProgress() {
+    SHARED_DATA sharedData;
+    return (double)(sharedData.numOfProcessedLines) / (double)(sharedData.lineCountInFile[TESTFILEINDEX]);
+}
+
 int main(int argc, char** argv) {
     
     if (argc < 3) {
@@ -25,16 +63,6 @@ int main(int argc, char** argv) {
     * m: place a hash mark “#” in the progress bar every N characters, default is 1
     * v: print number of contained vocab strings to an output file only it is equal to or greater than N, default is 0 if not specified
     */
-    
-    // for (int i = 1; i < argc; ++i) {
-    //     if (std::string(argv[i]) == "-v" && i + 1 < argc) {
-    //         sharedData.minNumOfVocabStringsContainedForPrinting = std::atoi(argv[i + 1]);
-    //         i++; // Skip the argument value
-    //     }
-    // }
-
-    // std::cout << "minNumOfVocabStringsContained : " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
-    
     
 
     int option = 0;
@@ -56,24 +84,22 @@ int main(int argc, char** argv) {
                 //converts to int
                 sharedData.numOfProgressMarks = atoi(optarg);
                 std::cout << "numOfProgressMarks: " << sharedData.numOfProgressMarks << endl;
-                // if (sharedData.numOfProgressMarks < 10){
-                //     cerr << "Number of progress marks must be a number and at least 10." << endl;
-                //     exit(EXIT_FAILURE);
-                // }
+                if (sharedData.numOfProgressMarks < 10){
+                    cerr << "Number of progress marks must be a number and at least 10." << endl;
+                    exit(EXIT_FAILURE);
+                }
                 break;
 
             case 'm':
-                cout << "optarg: " << optarg << endl;
                 sharedData.hashmarkInterval = atoi(optarg);
                 std::cout << "hashmarkInterval: " << sharedData.hashmarkInterval << endl;
-                // if (sharedData.hashmarkInterval <= 0 || sharedData.hashmarkInterval > 10) {
-                //     cerr << "Hash mark interval for progress must be a number, greater than 0, and less than or equal to 10." << endl;
-                //     exit(EXIT_FAILURE);
-                // }
+                if (sharedData.hashmarkInterval <= 0 || sharedData.hashmarkInterval > 10) {
+                    cerr << "Hash mark interval for progress must be a number, greater than 0, and less than or equal to 10." << endl;
+                    exit(EXIT_FAILURE);
+                }
                 break;
 
             case 'v':
-                cout << "optarg: " << optarg << endl;
                 sharedData.minNumOfVocabStringsContainedForPrinting = atoi(optarg);
                 std::cout << "minNumOfVocabStringsContainedForPrinting: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
                 break;
@@ -83,9 +109,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    cout << optind;
+    //for vocab file
     sharedData.fileName[0] = argv[optind];
     cout << argv[optind] << endl ;
+
+    //for test file
     sharedData.fileName[1] = argv[optind + 1];
     cout << argv[optind + 1] << endl;
 
@@ -93,13 +121,11 @@ int main(int argc, char** argv) {
     // sharedData.fileName[0] = argv[1]; //for vocab file
     // sharedData.fileName[1] = argv[2]; //for test file
     
-    //std::cout << "he: " << sharedData.minNumOfVocabStringsContainedForPrinting << std::endl;
 
     pthread_t readvocabThread;
     pthread_t readlinesThread;
     pthread_t countvocabstringsThread;
 
-    
     
     pthread_mutex_init(&sharedData.queue_mutex,NULL);
 
@@ -126,6 +152,8 @@ int main(int argc, char** argv) {
     pthread_join(readvocabThread, NULL);
     pthread_join(readlinesThread, NULL);
     pthread_join(countvocabstringsThread, NULL);
+
+    
 
     return 0;
     

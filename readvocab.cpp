@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <sys/stat.h>
 
 void* readvocab(void* arg){
     //Access shared data structure inside thread.
@@ -14,10 +15,10 @@ void* readvocab(void* arg){
     std::string vocabLine;
 
     //Used stat to obtain the number of lines in vocab file .
-    // struct stat fileStat;
-    // const char* filePath = vocabFileName;
-    // stat(filePath, &fileStat);
-    // accessData->totalNumOfCharsInVocabFile = fileStat.st_size;
+    struct stat fileStat;
+    const char* filePath = vocabFileName;
+    stat(filePath, &fileStat);
+    accessData->totalNumOfCharsInVocabFile = fileStat.st_size;
     
 
     //Read in all the lines from vocab file, turn them to lowercase letters, and push to shared vocab vector while increasing the shared count fo the number of total lines processed vector.
@@ -25,7 +26,7 @@ void* readvocab(void* arg){
 
         std::transform(vocabLine.begin(), vocabLine.end(), vocabLine.begin(), ::tolower);
         accessData->vocabVect.push_back(vocabLine);
-        accessData->numOfCharsReadFromVocabFile++;
+        accessData->numOfCharsReadFromVocabFile += vocabLine.length() + 1;
     }
 
     
