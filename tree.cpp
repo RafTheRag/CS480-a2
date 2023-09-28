@@ -1,6 +1,6 @@
 /*
- *@Author: Rafael Ramirez
- *REDID: 825477088
+*Author Rafael Ramirez & Matt D. Jaranilla
+*REDID: 825477088 & 825452453
 */
 
 #include <string.h>
@@ -22,6 +22,7 @@ CharTrie::CharTrie(){
     root = new CharNode();
 }
 
+//This is the destructer for the CharTrie class which class nodeDelete with the root of the trie as its argument.
 CharTrie::~CharTrie(){
     nodeDelete(root);
 }
@@ -97,16 +98,17 @@ bool CharTrie::search(const char *strBeingSearched){
     return true; //If we succesfully reach the end of the searced string then it means it is found in the trie and we return true.
 }
 
+//Uses DFS so recursively delete the root of the trie and its children by iterating through all the children and calling nodeDelete with the chuld as the argument if said child isn't a nullptr.
 void CharTrie::nodeDelete(CharNode *root){
-    if(!root) return;
+    if(!root) return; //return if our root is null
         
     for(int i = 0; i < LENGTH; i++){
 
         if(root->child[i] != nullptr){
 
-            nodeDelete(root->child[i]);
+            nodeDelete(root->child[i]); //call nodeDelete on non-nullptr children
         }
     }
 
-    delete root;
+    delete root; //delete current node
  }

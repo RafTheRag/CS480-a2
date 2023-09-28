@@ -1,3 +1,8 @@
+/*
+*Author Rafael Ramirez & Matt D. Jaranilla
+*REDID: 825477088 & 825452453
+*/
+
 #ifndef SHARED_H
 #define SHARED_H
 
@@ -84,6 +89,7 @@ typedef struct {
     */
     bool taskCompleted[NUMOFFILES];
 
+    //Initializes shared variables to default values.
     void initilize(){
         for(bool task: taskCompleted){
             task = false;

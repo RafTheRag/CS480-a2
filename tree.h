@@ -1,6 +1,6 @@
 /*
- *@Author: Rafael Ramirez
- *REDID: 825477088
+*Author Rafael Ramirez & Matt D. Jaranilla
+*REDID: 825477088 & 825452453
 */
 
 #ifndef TREE_H
@@ -18,7 +18,7 @@ public:
 
 };
 
-//Declare the CharTrie class with 3 oublic methods and a private root of type CharNode.
+//Declare the CharTrie class with a constructer. destructer, 4 public methods and a private root of type CharNode.
 class CharTrie {
 public:
     CharTrie();
