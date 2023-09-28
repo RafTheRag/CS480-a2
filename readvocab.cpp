@@ -20,6 +20,7 @@ void* readvocab(void* arg){
     stat(filePath, &fileStat);
     accessData->totalNumOfCharsInVocabFile = fileStat.st_size;
     
+    //std::cout << fileStat.st_size << std::endl;
 
     //Read in all the lines from vocab file, turn them to lowercase letters, and push to shared vocab vector while increasing the shared count fo the number of total lines processed vector.
     while(std::getline(vocabIn, vocabLine)){
@@ -27,6 +28,7 @@ void* readvocab(void* arg){
         std::transform(vocabLine.begin(), vocabLine.end(), vocabLine.begin(), ::tolower);
         accessData->vocabVect.push_back(vocabLine);
         accessData->numOfCharsReadFromVocabFile += vocabLine.length() + 1;
+        accessData->lineCountInFile[VOCABFILEINDEX]++;
     }
 
     

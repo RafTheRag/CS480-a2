@@ -7,7 +7,7 @@ CXX = g++
 CXXFLAGS = -std=c++11 -Wall -g3 -c
 
 # object files
-OBJS = tree.o readvocab.o readlines.o countvocabstrings.o main.o
+OBJS = tree.o readvocab.o readlines.o countvocabstrings.o main.o display.o
 
 # Program name
 PROGRAM = countvocabstrings
@@ -33,6 +33,9 @@ countvocabstrings.o: countvocabstrings.cpp countvocabstrings.h
 
 tree.o : tree.h tree.cpp
 	$(CXX) $(CXXFLAGS) tree.cpp
+
+display.o : display.cpp display.h
+	$(CXX) $(CXXFLAGS) display.cpp
 
 clean :
 	rm -f *.o $(PROGRAM)

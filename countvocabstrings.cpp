@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <iostream>
+#include <fstream>
 
 void* countvocabstrings(void* arg){
     SHARED_DATA *accessData = (SHARED_DATA*)arg;
@@ -16,6 +17,8 @@ void* countvocabstrings(void* arg){
     }
 
     int vocabCount;
+
+    std::ofstream vocabCountOut("countNumOfContainedVocab.txt");
     
     while(!accessData->lineQueue.empty()){
         
@@ -37,10 +40,14 @@ void* countvocabstrings(void* arg){
 
 
         if(vocabCount >= accessData->minNumOfVocabStringsContainedForPrinting){
-        std::cout << vocabCount << std::endl;
+            vocabCountOut << vocabCount << std::endl;
         }
+
+        accessData->numOfProcessedLines++;
         
     }
+
+    vocabCountOut.close();
     
     
     pthread_exit(NULL);

@@ -8,7 +8,6 @@ void* readlines(void* arg){
     SHARED_DATA *accessData = (SHARED_DATA*)arg;
     
     const char* testFileName = accessData->fileName[TESTFILEINDEX];
-    accessData->lineCountInFile[TESTFILEINDEX] = 0;
     
     //Preperation for reading in test file lines.
     std::ifstream testIn(testFileName);
