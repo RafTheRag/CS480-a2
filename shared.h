@@ -91,12 +91,10 @@ typedef struct {
 
     //Initializes shared variables to default values.
     void initilize(){
-        for(bool task: taskCompleted){
-            task = false;
-        }
-        for(int lineCount: lineCountInFile){
-            lineCount = 0;
-        }
+        taskCompleted[VOCABFILEINDEX] = false;
+        taskCompleted[TESTFILEINDEX] = false;
+        lineCountInFile[VOCABFILEINDEX] = 0;
+        lineCountInFile[TESTFILEINDEX] = 0;
         totalNumOfCharsInVocabFile = 0;
         numOfCharsReadFromVocabFile = 0;
         numOfProcessedLines = 0;
