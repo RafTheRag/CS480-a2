@@ -1,3 +1,7 @@
+
+#  Author: Rafael Ramirez & Matt D Jaranilla
+#  RedID: 825477088 & 825452453
+
 # for c++ compiler
 CXX = g++
 
