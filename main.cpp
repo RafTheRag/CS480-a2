@@ -64,10 +64,25 @@ int main(int argc, char** argv) {
         }
     }
 
-    //for vocab file
+    //for vocab file if we are given an invalid vocabFile we diplay an error and exit.
+    ifstream vocabFile;
+    vocabFile.open(argv[optind]);
+    if (!vocabFile){
+        cerr << "Display Unable to open <<" << argv[optind] << ">>" << endl;
+        exit(1);
+    }
+    vocabFile.close();
     sharedData.fileName[VOCABFILEINDEX] = argv[optind];
 
-    //for test file
+
+    //for test file if we are given an invalid testFile we diplay an error and exit.
+    ifstream testFile;
+    testFile.open(argv[optind + 1]);
+    if (!testFile){
+        cerr << "Display Unable to open <<" << argv[optind + 1] << ">>" << endl;
+        exit(1);
+    } 
+    testFile.close();
     sharedData.fileName[TESTFILEINDEX] = argv[optind + 1];
 
     //initializes the rest of the variable in the shared data sturcture
